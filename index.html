@@ -6,23 +6,37 @@
 <title>Roogency — Africa's Youth Culture Media Company</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://sibforms.com/forms/end-form/build/sib-styles.css">
 <style>
-  :root { --black:#0a0a0a; --purple:#5B52E8; --purple2:#7C75F0; --purpledim:rgba(91,82,232,0.08); --white:#ffffff; --offwhite:#F7F7F7; --mid:#777; --light:#f0efff; }
+  :root{--black:#0a0a0a;--purple:#5B52E8;--purple2:#7C75F0;--purpledim:rgba(91,82,232,0.08);--white:#ffffff;--offwhite:#F7F7F7;--mid:#777;--light:#f0efff;}
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
   html{scroll-behavior:smooth;}
   body{background:var(--black);color:var(--white);font-family:'DM Sans',sans-serif;font-weight:300;overflow-x:hidden;}
-  nav{position:fixed;top:0;left:0;right:0;z-index:100;background:var(--white);display:flex;justify-content:space-between;align-items:center;padding:0.9rem 3rem;border-bottom:1px solid rgba(91,82,232,0.12);}
-  .nav-logo img{height:42px;object-fit:contain;}
-  .nav-links{display:flex;gap:2.5rem;list-style:none;}
-  .nav-links a{font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:#333;text-decoration:none;transition:color 0.2s;}
-  .nav-links a:hover{color:var(--purple);}
-  .nav-cta{background:var(--purple);color:var(--white);padding:0.55rem 1.4rem;font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;transition:background 0.2s;}
-  .nav-cta:hover{background:var(--purple2);}
-  #hero{min-height:100vh;background:var(--black);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:8rem 2rem 5rem;position:relative;overflow:hidden;}
+
+  /* NAV */
+  nav{position:fixed;top:0;left:0;right:0;z-index:200;background:var(--white);display:flex;justify-content:space-between;align-items:center;padding:0.8rem 2rem;border-bottom:1px solid rgba(91,82,232,0.12);}
+  .nav-logo img{height:52px;object-fit:contain;max-width:160px;}
+  .hamburger{background:none;border:none;cursor:pointer;display:flex;flex-direction:column;gap:5px;padding:6px;z-index:300;}
+  .hamburger span{display:block;width:26px;height:2px;background:var(--black);transition:all 0.3s;}
+  .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+  .hamburger.open span:nth-child(2){opacity:0;}
+  .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+
+  /* MOBILE MENU OVERLAY */
+  .menu-overlay{position:fixed;inset:0;background:var(--black);z-index:150;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:2.5rem;opacity:0;pointer-events:none;transition:opacity 0.4s;}
+  .menu-overlay.open{opacity:1;pointer-events:all;}
+  .menu-overlay a{font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,8vw,3.5rem);color:var(--white);text-decoration:none;letter-spacing:0.08em;transition:color 0.2s;position:relative;}
+  .menu-overlay a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--purple);transition:width 0.3s;}
+  .menu-overlay a:hover{color:var(--purple);}
+  .menu-overlay a:hover::after{width:100%;}
+  .menu-close-area{position:absolute;top:1.2rem;right:2rem;}
+
+  /* HERO */
+  #hero{min-height:100vh;background:var(--black);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:7rem 2rem 5rem;position:relative;overflow:hidden;}
   .hero-glow{position:absolute;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(91,82,232,0.1) 0%,transparent 65%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;}
   .hero-symbol{width:80px;height:80px;object-fit:contain;margin-bottom:2rem;border-radius:50%;opacity:0;animation:fadeUp 0.8s 0.2s forwards;}
   .hero-tag{font-size:0.65rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--purple);margin-bottom:1.2rem;opacity:0;animation:fadeUp 0.8s 0.4s forwards;}
-  .hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,9vw,7.5rem);line-height:0.85;letter-spacing:0.02em;color:var(--white);opacity:0;animation:fadeUp 0.8s 0.6s forwards;}
+  .hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,9vw,7.5rem);line-height:0.88;letter-spacing:0.02em;color:var(--white);opacity:0;animation:fadeUp 0.8s 0.6s forwards;}
   .hero-title span{color:var(--purple);display:block;}
   .hero-sub{font-size:0.95rem;line-height:1.85;color:rgba(255,255,255,0.45);max-width:520px;margin:2rem auto 0;opacity:0;animation:fadeUp 0.8s 0.8s forwards;}
   .hero-buttons{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:2.5rem;opacity:0;animation:fadeUp 0.8s 1s forwards;}
@@ -31,14 +45,20 @@
   .btn-ghost{border:1px solid rgba(255,255,255,0.2);color:var(--white);padding:0.8rem 2rem;font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;transition:all 0.2s;}
   .btn-ghost:hover{border-color:var(--purple);color:var(--purple);transform:translateY(-2px);}
   .hero-scroll{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.25);opacity:0;animation:fadeUp 0.8s 1.2s forwards;}
+
+  /* STATS */
   #stats{background:var(--purple);display:grid;grid-template-columns:repeat(4,1fr);}
   .stat-item{padding:2.2rem 1.5rem;text-align:center;border-right:1px solid rgba(255,255,255,0.15);}
   .stat-item:last-child{border-right:none;}
   .stat-num{font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:var(--white);line-height:1;}
   .stat-label{font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.65);margin-top:0.3rem;}
+
+  /* SHARED */
   .section-tag{font-size:0.62rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--purple);margin-bottom:0.8rem;}
   .section-title{font-family:'DM Serif Display',serif;font-size:clamp(1.8rem,3.5vw,2.8rem);line-height:1.15;margin-bottom:1.5rem;}
   .section-title em{font-style:italic;color:var(--purple);}
+
+  /* ABOUT */
   #about{background:var(--white);padding:6rem 4rem;}
   .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;}
   .about-left .section-title{color:var(--black);}
@@ -50,10 +70,12 @@
   .values-grid{display:flex;flex-direction:column;gap:1rem;}
   .value-item{padding:1.2rem 1.4rem;border:1px solid rgba(91,82,232,0.15);background:var(--offwhite);transition:border-color 0.3s,background 0.3s;}
   .value-item:hover{border-color:var(--purple);background:var(--light);}
-  .value-title{font-size:0.78rem;font-weight:600;color:var(--purple);margin-bottom:0.3rem;letter-spacing:0.05em;}
+  .value-title{font-size:0.78rem;font-weight:600;color:var(--purple);margin-bottom:0.3rem;}
   .value-desc{font-size:0.78rem;line-height:1.65;color:#555;}
-  #whatwedo{background:var(--black);padding:6rem 4rem;}
-  #whatwedo .section-title{color:var(--white);}
+
+  /* PROJECTS (was What We Do) */
+  #projects{background:var(--black);padding:6rem 4rem;}
+  #projects .section-title{color:var(--white);}
   .pillars-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5px;background:rgba(255,255,255,0.04);margin-top:3rem;}
   .pillar-card{background:var(--black);padding:3rem 2.5rem;border:1px solid rgba(255,255,255,0.06);transition:border-color 0.3s;position:relative;overflow:hidden;}
   .pillar-card:hover{border-color:rgba(91,82,232,0.4);}
@@ -66,20 +88,48 @@
   .pillar-aka{font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--purple);margin-top:0.2rem;}
   .pillar-desc{font-size:0.85rem;line-height:1.75;color:rgba(255,255,255,0.45);margin-bottom:1rem;}
   .pillar-slogan{font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--purple);border-top:1px solid rgba(91,82,232,0.2);padding-top:0.8rem;margin-top:0.5rem;}
-  .photo-placeholders{display:flex;gap:0.5rem;margin-top:1rem;}
-  .photo-placeholder{flex:1;height:80px;background:rgba(255,255,255,0.04);border:1px dashed rgba(91,82,232,0.3);display:flex;align-items:center;justify-content:center;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.2);}
+  .team-photos{display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;margin-top:1rem;}
+  .team-photo{width:100%;height:140px;object-fit:cover;object-position:center top;border:1px solid rgba(91,82,232,0.2);}
+  .single-photo{width:100%;max-width:320px;height:200px;object-fit:cover;object-position:center 60%;margin-top:1rem;border:1px solid rgba(91,82,232,0.2);display:block;}
   .coming-soon-tag{display:inline-block;font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;background:rgba(91,82,232,0.15);color:var(--purple);padding:0.3rem 0.7rem;margin-top:0.8rem;}
-  #projects{background:var(--offwhite);padding:6rem 4rem;}
-  #projects .section-title{color:var(--black);}
-  .projects-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;margin-top:3rem;}
-  .project-card{background:var(--white);padding:2.5rem;border:1px solid rgba(0,0,0,0.07);position:relative;overflow:hidden;transition:border-color 0.3s,transform 0.3s,box-shadow 0.3s;}
-  .project-card:hover{border-color:var(--purple);transform:translateY(-4px);box-shadow:0 12px 40px rgba(91,82,232,0.1);}
-  .project-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--purple);transform:scaleX(0);transform-origin:left;transition:transform 0.4s;}
-  .project-card:hover::after{transform:scaleX(1);}
-  .project-year{font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--purple);margin-bottom:0.8rem;}
-  .project-name{font-family:'DM Serif Display',serif;font-size:1.2rem;color:var(--black);margin-bottom:0.6rem;}
-  .project-desc{font-size:0.82rem;line-height:1.7;color:#555;margin-bottom:1.2rem;}
-  .project-tag{display:inline-block;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--purple);border:1px solid rgba(91,82,232,0.3);padding:0.25rem 0.6rem;margin-right:0.3rem;margin-bottom:0.3rem;}
+
+  /* SERVICES */
+  #services{background:var(--offwhite);padding:6rem 4rem;}
+  #services .section-title{color:var(--black);}
+  .services-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2rem;margin-top:3rem;}
+  .service-card{background:var(--white);border:1px solid rgba(0,0,0,0.07);padding:2.5rem;position:relative;overflow:hidden;transition:border-color 0.3s,transform 0.3s,box-shadow 0.3s;}
+  .service-card:hover{border-color:var(--purple);transform:translateY(-4px);box-shadow:0 12px 40px rgba(91,82,232,0.1);}
+  .service-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--purple);transform:scaleX(0);transform-origin:left;transition:transform 0.4s;}
+  .service-card:hover::after{transform:scaleX(1);}
+  .service-name{font-family:'DM Serif Display',serif;font-size:1.3rem;color:var(--black);margin-bottom:0.5rem;}
+  .service-line{font-size:0.85rem;color:#555;line-height:1.6;margin-bottom:1.5rem;}
+  .pricing-tiers{display:flex;flex-direction:column;gap:0.8rem;margin-bottom:1.2rem;}
+  .tier-row{display:flex;justify-content:space-between;align-items:center;padding:0.8rem 1rem;background:var(--offwhite);border-left:3px solid var(--purple);}
+  .tier-name{font-size:0.78rem;font-weight:600;color:var(--black);}
+  .tier-price{font-size:0.78rem;font-weight:600;color:var(--purple);}
+  .tier-detail{font-size:0.72rem;color:#777;margin-top:0.2rem;}
+  .service-includes{margin-top:1rem;}
+  .service-includes-label{font-size:0.62rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--purple);margin-bottom:0.5rem;}
+  .service-includes ul{list-style:none;display:flex;flex-direction:column;gap:0.3rem;}
+  .service-includes ul li{font-size:0.78rem;color:#555;padding-left:1rem;position:relative;}
+  .service-includes ul li::before{content:'\2013';position:absolute;left:0;color:var(--purple);}
+
+  /* Creator Program price cards */
+  .creator-cards{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem;}
+  .creator-card{background:var(--black);padding:1.5rem;border:1px solid rgba(91,82,232,0.25);}
+  .creator-card-name{font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--purple);margin-bottom:0.5rem;}
+  .creator-card-price{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--white);line-height:1;margin-bottom:0.8rem;}
+  .creator-card-detail{font-size:0.75rem;color:rgba(255,255,255,0.5);line-height:1.6;}
+
+  /* Event tiers */
+  .event-formats{display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:1.2rem;}
+  .event-tag{font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;border:1px solid rgba(91,82,232,0.3);color:var(--purple);padding:0.3rem 0.7rem;background:var(--offwhite);}
+  .sponsor-tiers{display:flex;flex-direction:column;gap:0.5rem;}
+  .sponsor-tier{display:flex;align-items:center;gap:0.8rem;padding:0.7rem 1rem;border-left:3px solid var(--purple);background:var(--offwhite);}
+  .sponsor-tier-dot{width:8px;height:8px;border-radius:50%;background:var(--purple);flex-shrink:0;}
+  .sponsor-tier-name{font-size:0.78rem;font-weight:600;color:var(--black);}
+
+  /* MEDIA */
   #media{background:var(--black);padding:6rem 4rem;}
   #media .section-title{color:var(--white);}
   .media-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,0.05);margin-top:3rem;}
@@ -91,45 +141,63 @@
   .follow-box{margin-top:3rem;padding:2.5rem;border:1px solid rgba(91,82,232,0.25);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1.5rem;}
   .follow-left p{font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--purple);margin-bottom:0.4rem;}
   .follow-left h3{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--white);letter-spacing:0.05em;}
-  .follow-links{display:flex;gap:0.8rem;flex-wrap:wrap;}
-  .follow-link{padding:0.6rem 1.2rem;border:1px solid rgba(91,82,232,0.3);color:var(--white);text-decoration:none;font-size:0.72rem;letter-spacing:0.08em;transition:all 0.2s;}
-  .follow-link:hover{border-color:var(--purple);color:var(--purple);background:var(--purpledim);}
+  .social-icons{display:flex;gap:0.8rem;flex-wrap:wrap;align-items:center;}
+  .social-icon{width:44px;height:44px;border:1px solid rgba(91,82,232,0.3);display:flex;align-items:center;justify-content:center;transition:all 0.2s;color:var(--white);text-decoration:none;}
+  .social-icon:hover{border-color:var(--purple);background:var(--purpledim);transform:translateY(-2px);}
+  .social-icon svg{width:20px;height:20px;fill:currentColor;}
+
+  /* NEWSLETTER */
+  #newsletter{background:var(--black);padding:6rem 4rem;border-top:1px solid rgba(91,82,232,0.1);}
+  #newsletter .section-title{color:var(--white);}
+  .newsletter-inner{max-width:600px;margin:0 auto;text-align:center;}
+  .newsletter-sub{font-size:0.9rem;color:rgba(255,255,255,0.45);line-height:1.8;margin-bottom:3rem;}
+  .brevo-wrap{background:rgba(255,255,255,0.04);border:1px solid rgba(91,82,232,0.2);padding:2.5rem;max-width:480px;margin:0 auto;}
+  .brevo-wrap .sib-form{background:transparent!important;text-align:left;}
+  .brevo-wrap #sib-container{background:transparent!important;border:none!important;border-radius:0!important;max-width:100%!important;text-align:left!important;}
+  .brevo-wrap .sib-form-block p{font-family:'DM Sans',sans-serif!important;color:var(--white)!important;font-size:0.9rem!important;font-weight:400!important;}
+  .brevo-wrap .entry__label{font-family:'DM Sans',sans-serif!important;color:rgba(255,255,255,0.6)!important;font-size:0.75rem!important;letter-spacing:0.1em!important;text-transform:uppercase!important;}
+  .brevo-wrap .input{background:rgba(255,255,255,0.06)!important;border:1px solid rgba(91,82,232,0.3)!important;color:var(--white)!important;font-family:'DM Sans',sans-serif!important;padding:0.8rem 1rem!important;width:100%!important;border-radius:0!important;}
+  .brevo-wrap .input:focus{outline:none!important;border-color:var(--purple)!important;}
+  .brevo-wrap .sib-form-block__button{background:var(--purple)!important;border-radius:0!important;font-family:'DM Sans',sans-serif!important;font-size:0.75rem!important;letter-spacing:0.1em!important;padding:0.8rem 2rem!important;width:100%!important;margin-top:0.5rem!important;cursor:pointer!important;transition:background 0.2s!important;}
+  .brevo-wrap .sib-form-block__button:hover{background:var(--purple2)!important;}
+  .brevo-wrap .entry__specification{color:rgba(255,255,255,0.25)!important;font-size:0.68rem!important;font-family:'DM Sans',sans-serif!important;}
+
+  /* CONTACT */
   #contact{background:var(--black);padding:7rem 4rem;text-align:center;position:relative;overflow:hidden;}
   #contact::before{content:'ROO';position:absolute;font-family:'Bebas Neue',sans-serif;font-size:25vw;color:rgba(91,82,232,0.04);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;white-space:nowrap;}
   .contact-symbol{width:55px;margin:0 auto 2rem;display:block;border-radius:50%;opacity:0.5;}
   .contact-title{font-family:'DM Serif Display',serif;font-size:clamp(2rem,5vw,3.5rem);color:var(--white);margin-bottom:1rem;position:relative;}
   .contact-sub{font-size:0.88rem;color:rgba(255,255,255,0.35);margin-bottom:3rem;line-height:1.8;position:relative;}
-  .contact-links{display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;position:relative;}
-  .contact-link{display:flex;align-items:center;gap:0.5rem;padding:0.8rem 1.5rem;border:1px solid rgba(91,82,232,0.25);color:var(--white);text-decoration:none;font-size:0.75rem;letter-spacing:0.08em;transition:all 0.2s;}
+  .contact-details{display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap;position:relative;margin-bottom:2rem;}
+  .contact-link{padding:0.8rem 1.5rem;border:1px solid rgba(91,82,232,0.25);color:var(--white);text-decoration:none;font-size:0.75rem;letter-spacing:0.08em;transition:all 0.2s;}
   .contact-link:hover{border-color:var(--purple);color:var(--purple);background:var(--purpledim);}
-  footer{background:#050505;padding:1.8rem 4rem;display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(91,82,232,0.12);}
-  .footer-logo img{height:20px;object-fit:contain;opacity:0.55;}
-  footer p{font-size:0.68rem;color:rgba(255,255,255,0.2);letter-spacing:0.08em;}
-
-  .team-photos{display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;margin-top:1rem;}
-  .team-photo{width:100%;height:140px;object-fit:cover;object-position:center top;border:1px solid rgba(91,82,232,0.2);}
-  .single-photo{width:100%;max-width:320px;height:200px;object-fit:cover;object-position:center 60%;margin-top:1rem;border:1px solid rgba(91,82,232,0.2);display:block;}
-
-  .social-icons{display:flex;gap:1rem;align-items:center;flex-wrap:wrap;}
-  .social-icon{width:44px;height:44px;border:1px solid rgba(91,82,232,0.3);display:flex;align-items:center;justify-content:center;transition:all 0.2s;color:var(--white);text-decoration:none;}
-  .social-icon:hover{border-color:var(--purple);background:var(--purpledim);transform:translateY(-2px);}
-  .social-icon svg{width:20px;height:20px;fill:currentColor;}
-  .contact-social-icons{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:2rem;position:relative;}
+  .contact-social-icons{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;position:relative;}
   .contact-social-icon{width:50px;height:50px;border:1px solid rgba(91,82,232,0.25);display:flex;align-items:center;justify-content:center;transition:all 0.2s;color:var(--white);text-decoration:none;}
   .contact-social-icon:hover{border-color:var(--purple);background:var(--purpledim);transform:translateY(-3px);}
   .contact-social-icon svg{width:22px;height:22px;fill:currentColor;}
+
+  /* FOOTER */
+  footer{background:#050505;padding:1.8rem 4rem;display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(91,82,232,0.12);}
+  .footer-logo img{height:32px;object-fit:contain;opacity:0.6;}
+  footer p{font-size:0.68rem;color:rgba(255,255,255,0.2);letter-spacing:0.08em;}
+
+  /* ANIMATIONS */
   @keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
   .reveal{opacity:0;transform:translateY(28px);transition:opacity 0.7s,transform 0.7s;}
   .reveal.visible{opacity:1;transform:translateY(0);}
+
+  /* RESPONSIVE */
   @media(max-width:900px){
-    nav{padding:1rem 1.5rem;} .nav-links{display:none;}
+    nav{padding:0.8rem 1.5rem;}
     #hero{padding:7rem 1.5rem 4rem;}
     #stats{grid-template-columns:repeat(2,1fr);}
     #about{padding:4rem 1.5rem;} .about-grid{grid-template-columns:1fr;gap:3rem;}
-    #whatwedo{padding:4rem 1.5rem;} .pillars-grid{grid-template-columns:1fr;}
-    #projects{padding:4rem 1.5rem;} .projects-grid{grid-template-columns:1fr;}
+    #projects{padding:4rem 1.5rem;} .pillars-grid{grid-template-columns:1fr;}
+    #services{padding:4rem 1.5rem;} .services-grid{grid-template-columns:1fr;}
+    .creator-cards{grid-template-columns:1fr;}
     #media{padding:4rem 1.5rem;} .media-grid{grid-template-columns:1fr;}
     .follow-box{flex-direction:column;align-items:flex-start;}
+    #newsletter{padding:4rem 1.5rem;}
     #contact{padding:5rem 1.5rem;}
     footer{flex-direction:column;gap:0.8rem;text-align:center;padding:1.5rem;}
   }
@@ -137,31 +205,39 @@
 </head>
 <body>
 
+<!-- NAV -->
 <nav>
   <div class="nav-logo"><img src="roogencywordmark.png" alt="Roogency"></div>
-  <ul class="nav-links">
-    <li><a href="#about">About</a></li>
-    <li><a href="#whatwedo">What We Do</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#media">Media</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-  <a href="#contact" class="nav-cta">Work With Us</a>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
+<!-- MENU OVERLAY -->
+<div class="menu-overlay" id="menuOverlay">
+  <a href="#hero" class="menu-link">Home</a>
+  <a href="#about" class="menu-link">About Us</a>
+  <a href="#projects" class="menu-link">Projects</a>
+  <a href="#services" class="menu-link">Services</a>
+  <a href="#newsletter" class="menu-link">Newsletter</a>
+  <a href="#contact" class="menu-link">Contact Us</a>
+</div>
+
+<!-- HERO -->
 <section id="hero">
   <div class="hero-glow"></div>
   <img src="roogencysymbol.png" alt="Roogency" class="hero-symbol">
   <p class="hero-tag">Sport · Fashion · Media · Community</p>
-  <h1 class="hero-title">Africa's Youth<br><span>Culture Media</span><br>Company</h1>
+  <h1 class="hero-title">Africa's Youth<br><span>Culture Media</span>Company</h1>
   <p class="hero-sub">Roogency builds structured content systems around sport, fashion, and lifestyle — creating visibility and real income for the next generation of African talent.</p>
   <div class="hero-buttons">
-    <a href="#whatwedo" class="btn-purple">What We Do</a>
+    <a href="#projects" class="btn-purple">Our Projects</a>
     <a href="#about" class="btn-ghost">Our Story</a>
   </div>
   <p class="hero-scroll">Scroll to explore</p>
 </section>
 
+<!-- STATS -->
 <div id="stats">
   <div class="stat-item"><div class="stat-num">80K+</div><div class="stat-label">Total Content Views</div></div>
   <div class="stat-item"><div class="stat-num">55+</div><div class="stat-label">Contents Published</div></div>
@@ -169,6 +245,7 @@
   <div class="stat-item"><div class="stat-num">2023</div><div class="stat-label">Founded</div></div>
 </div>
 
+<!-- ABOUT -->
 <section id="about">
   <div class="about-grid">
     <div class="about-left reveal">
@@ -194,10 +271,11 @@
   </div>
 </section>
 
-<section id="whatwedo">
+<!-- PROJECTS -->
+<section id="projects">
   <div class="reveal">
-    <p class="section-tag">Our Work</p>
-    <h2 class="section-title">What We <em>Do</em></h2>
+    <p class="section-tag">What We Do</p>
+    <h2 class="section-title">Our <em>Projects</em></h2>
   </div>
   <div class="pillars-grid">
     <div class="pillar-card reveal">
@@ -238,39 +316,102 @@
   </div>
 </section>
 
-<section id="projects">
+<!-- SERVICES -->
+<section id="services">
   <div class="reveal">
-    <p class="section-tag">Active Work</p>
-    <h2 class="section-title">Our <em>Projects</em></h2>
+    <p class="section-tag">Work With Us</p>
+    <h2 class="section-title">What We <em>Offer</em></h2>
   </div>
-  <div class="projects-grid">
-    <div class="project-card reveal">
-      <p class="project-year">2025 — Present</p>
-      <h3 class="project-name">Roogency FC</h3>
-      <p class="project-desc">Our football club. Playing games, producing content, and creating a platform for young players across Nigeria to be seen, supported, and celebrated.</p>
-      <span class="project-tag">Football</span><span class="project-tag">Content</span><span class="project-tag">Community</span>
+  <div class="services-grid">
+
+    <!-- Content Retainer -->
+    <div class="service-card reveal">
+      <h3 class="service-name">Content Retainer</h3>
+      <p class="service-line">Professional branded video packages for brands that want to reach young African consumers authentically.</p>
+      <div class="pricing-tiers">
+        <div class="tier-row">
+          <div><div class="tier-name">Starter</div><div class="tier-detail">15 videos</div></div>
+          <div class="tier-price">NGN 100,000</div>
+        </div>
+        <div class="tier-row">
+          <div><div class="tier-name">Standard</div><div class="tier-detail">30 videos</div></div>
+          <div class="tier-price">NGN 200,000</div>
+        </div>
+        <div class="tier-row">
+          <div><div class="tier-name">Premium</div><div class="tier-detail">45 videos</div></div>
+          <div class="tier-price">NGN 400,000</div>
+        </div>
+      </div>
+      <div class="service-includes">
+        <p class="service-includes-label">What's Included</p>
+        <ul>
+          <li>Brand brief consultation</li>
+          <li>Scripted and produced by Roogency</li>
+          <li>Sport and lifestyle formats</li>
+          <li>Delivered on agreed timeline</li>
+          <li>Content calendar on Standard and above</li>
+        </ul>
+      </div>
     </div>
-    <div class="project-card reveal">
-      <p class="project-year">2026 — Present</p>
-      <h3 class="project-name">Basketball Visibility Project</h3>
-      <p class="project-desc">Documenting and amplifying the stories of young Nigerian basketball players — giving them the digital presence and audience they deserve.</p>
-      <span class="project-tag">Basketball</span><span class="project-tag">Media</span><span class="project-tag">Visibility</span>
+
+    <!-- Creator Program -->
+    <div class="service-card reveal">
+      <h3 class="service-name">Creator Program</h3>
+      <p class="service-line">Authentic UGC-style content produced by our creator community around your brand brief.</p>
+      <div class="creator-cards">
+        <div class="creator-card">
+          <div class="creator-card-name">Basic</div>
+          <div class="creator-card-price">NGN 60,000</div>
+          <div class="creator-card-detail">You provide a brief. We activate 5–7 creators from our community. Top 3 creators are rewarded. You receive diverse, authentic content.</div>
+        </div>
+        <div class="creator-card">
+          <div class="creator-card-name">Standard</div>
+          <div class="creator-card-price">NGN 150,000</div>
+          <div class="creator-card-detail">You provide a brief. We activate 10–15 creators from our community. Top 8 creators are rewarded. You receive diverse, authentic content.</div>
+        </div>
+      </div>
     </div>
-    <div class="project-card reveal">
-      <p class="project-year">2023 — Present</p>
-      <h3 class="project-name">Talent & Creative Community</h3>
-      <p class="project-desc">Connecting athletes, creatives, photographers, videographers, and young talent through collaboration, content, and shared opportunity.</p>
-      <span class="project-tag">Community</span><span class="project-tag">Talent</span><span class="project-tag">Collaboration</span>
+
+    <!-- Marketing Ads -->
+    <div class="service-card reveal">
+      <h3 class="service-name">Marketing Ads</h3>
+      <p class="service-line">Full marketing ad production that reaches young Africans where they actually are.</p>
+      <div class="pricing-tiers">
+        <div class="tier-row">
+          <div><div class="tier-name">Entry</div><div class="tier-detail">Short-form ad, single format</div></div>
+        </div>
+        <div class="tier-row">
+          <div><div class="tier-name">Mid</div><div class="tier-detail">Full production, mixed formats, distribution strategy</div></div>
+        </div>
+        <div class="tier-row">
+          <div><div class="tier-name">Premium</div><div class="tier-detail">End-to-end campaign, full creative direction, reporting</div></div>
+        </div>
+      </div>
+      <p style="font-size:0.78rem;color:var(--purple);margin-top:1rem;font-weight:500;">NGN 200,000 – NGN 2,000,000 depending on scope</p>
     </div>
-    <div class="project-card reveal">
-      <p class="project-year">2027 — Coming Soon</p>
-      <h3 class="project-name">Fashion Content Project</h3>
-      <p class="project-desc">A dedicated content platform for Nigerian fashion models and creatives. Our next chapter — currently in development.</p>
-      <span class="project-tag">Fashion</span><span class="project-tag">Content</span><span class="project-tag">Coming Soon</span>
+
+    <!-- Event Sponsorship -->
+    <div class="service-card reveal">
+      <h3 class="service-name">Event Sponsorship</h3>
+      <p class="service-line">Get your brand in front of young African audiences live and on camera — at our recurring sports, talent, and fashion events.</p>
+      <div class="event-formats">
+        <span class="event-tag">Football Tournament</span>
+        <span class="event-tag">Basketball Tournament</span>
+        <span class="event-tag">Fashion Show</span>
+        <span class="event-tag">Dance & Music</span>
+      </div>
+      <div class="service-includes-label" style="font-size:0.62rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--purple);margin-bottom:0.5rem;">Sponsorship Tiers</div>
+      <div class="sponsor-tiers">
+        <div class="sponsor-tier"><div class="sponsor-tier-dot"></div><div class="sponsor-tier-name">Headline Sponsor</div></div>
+        <div class="sponsor-tier"><div class="sponsor-tier-dot"></div><div class="sponsor-tier-name">Co-Sponsor</div></div>
+        <div class="sponsor-tier"><div class="sponsor-tier-dot"></div><div class="sponsor-tier-name">Community Partner</div></div>
+      </div>
     </div>
+
   </div>
 </section>
 
+<!-- MEDIA -->
 <section id="media">
   <div class="reveal">
     <p class="section-tag">Content & Reach</p>
@@ -284,39 +425,107 @@
   <div class="follow-box reveal">
     <div class="follow-left"><p>Follow Us</p><h3>@roogencyafrica</h3></div>
     <div class="social-icons">
-      <a href="https://instagram.com/roogencyafrica" target="_blank" class="social-icon" title="Instagram"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
-      <a href="https://tiktok.com/@roogencyafrica" target="_blank" class="social-icon" title="TikTok"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/></svg></a>
-      <a href="https://facebook.com/roogencyafrica" target="_blank" class="social-icon" title="Facebook"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
-      <a href="https://x.com/roogencyafrica" target="_blank" class="social-icon" title="X (Twitter)"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.261 5.636 5.903-5.636zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+      <a href="https://instagram.com/roogencyafrica" target="_blank" class="social-icon" title="Instagram @roogencyafrica"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+      <a href="https://tiktok.com/@roogencyafrica" target="_blank" class="social-icon" title="TikTok @roogencyafrica"><svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/></svg></a>
+      <a href="https://facebook.com/Roogency" target="_blank" class="social-icon" title="Facebook @Roogency"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+      <a href="https://x.com/theroogency" target="_blank" class="social-icon" title="X @theroogency"><svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.261 5.636 5.903-5.636zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+      <a href="https://youtube.com/@RoogencyTV" target="_blank" class="social-icon" title="YouTube @RoogencyTV"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
     </div>
   </div>
 </section>
 
+<!-- NEWSLETTER -->
+<section id="newsletter">
+  <div class="newsletter-inner reveal">
+    <p class="section-tag">Stay Updated</p>
+    <h2 class="section-title" style="color:var(--white);">Join Our <em>Newsletter</em></h2>
+    <p class="newsletter-sub">Get updates on Roogency events, sponsorship opportunities, new projects, and what's happening across our sports and media community.</p>
+    <div class="brevo-wrap">
+      <div class="sib-form">
+        <div id="sib-form-container" class="sib-form-container">
+          <div id="sib-container" class="sib-container--large sib-container--vertical">
+            <form id="sib-form" method="POST" action="https://208b77e9.sibforms.com/serve/MUIFABI_F_6ooLJd1FtzXVUFE8cZltGph9uvSaNSo81LMXrj5TBz9VyJFqI5KzhJdnwqNPvbI6ByXEWytiEf8xN_ZWN4Ox1IY-gPEyxr7TCXW6oJVrjlySSYjpzDTGkTJjLFXgRAddjIlZxPhn191ipSF5EuTSV_r2_IKWIh5TCbeK2Lz8ARqnRAtYITQApLUKPj120PRNvcmE8rSQ==">
+              <div style="padding:8px 0;">
+                <div class="sib-input sib-form-block">
+                  <div class="form__entry entry_block">
+                    <div class="form__label-row">
+                      <label class="entry__label" for="EMAIL">Your email address</label>
+                      <div class="entry__field">
+                        <input class="input" type="text" id="EMAIL" name="EMAIL" autocomplete="off" placeholder="you@example.com" data-required="true" required/>
+                      </div>
+                    </div>
+                    <label class="entry__error entry__error--primary"></label>
+                  </div>
+                </div>
+              </div>
+              <div style="padding:8px 0;">
+                <div class="sib-form-block">
+                  <button class="sib-form-block__button sib-form-block__button-with-loader" form="sib-form" type="submit">SUBSCRIBE</button>
+                </div>
+              </div>
+              <input type="text" name="email_address_check" value="" class="input--hidden">
+              <input type="hidden" name="locale" value="en">
+              <input type="hidden" name="html_type" value="simple">
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
 <section id="contact">
   <img src="roogencysymbol.png" alt="" class="contact-symbol">
   <h2 class="contact-title">Let's Build Together</h2>
   <p class="contact-sub">Sponsorships · Collaborations · Media Coverage · Partnerships<br>Based in Kaduna, Nigeria — open to opportunities everywhere.</p>
-  <a href="mailto:theroogency@gmail.com" class="contact-link" style="position:relative;">✉ theroogency@gmail.com</a>
-    <div class="contact-social-icons">
-    <a href="https://instagram.com/roogencyafrica" target="_blank" class="contact-social-icon" title="Instagram @roogencyafrica"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
-    <a href="https://tiktok.com/@roogencyafrica" target="_blank" class="contact-social-icon" title="TikTok @roogencyafrica"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/></svg></a>
-    <a href="https://facebook.com/Roogency" target="_blank" class="contact-social-icon" title="Facebook @Roogency"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
-    <a href="https://x.com/theroogency" target="_blank" class="contact-social-icon" title="X @theroogency"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.261 5.636 5.903-5.636zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
-    <a href="https://youtube.com/@RoogencyTV" target="_blank" class="contact-social-icon" title="YouTube @RoogencyTV"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+  <div class="contact-details">
+    <a href="mailto:theroogency@gmail.com" class="contact-link">✉ theroogency@gmail.com</a>
+    <a href="https://wa.me/2348034205189" target="_blank" class="contact-link">💬 WhatsApp</a>
+  </div>
+  <div class="contact-social-icons">
+    <a href="https://instagram.com/roogencyafrica" target="_blank" class="contact-social-icon" title="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+    <a href="https://tiktok.com/@roogencyafrica" target="_blank" class="contact-social-icon" title="TikTok"><svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/></svg></a>
+    <a href="https://facebook.com/Roogency" target="_blank" class="contact-social-icon" title="Facebook"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+    <a href="https://x.com/theroogency" target="_blank" class="contact-social-icon" title="X"><svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.261 5.636 5.903-5.636zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+    <a href="https://youtube.com/@RoogencyTV" target="_blank" class="contact-social-icon" title="YouTube"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
   </div>
 </section>
 
+<!-- FOOTER -->
 <footer>
   <div class="footer-logo"><img src="roogencywordmark.png" alt="Roogency"></div>
   <p>Kaduna, Nigeria · Founded 2023 · © 2026 Roogency</p>
 </footer>
 
 <script>
+  // Hamburger menu
+  const hamburger = document.getElementById('hamburger');
+  const menuOverlay = document.getElementById('menuOverlay');
+  const menuLinks = document.querySelectorAll('.menu-link');
+
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    menuOverlay.classList.toggle('open');
+    document.body.style.overflow = menuOverlay.classList.contains('open') ? 'hidden' : '';
+  });
+
+  menuLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      hamburger.classList.remove('open');
+      menuOverlay.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  });
+
+  // Scroll reveal
   const reveals = document.querySelectorAll('.reveal');
   const obs = new IntersectionObserver((entries) => {
-    entries.forEach((e,i) => { if(e.isIntersecting) setTimeout(()=>e.target.classList.add('visible'),i*80); });
-  },{threshold:0.12});
-  reveals.forEach(r=>obs.observe(r));
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i * 80);
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(r => obs.observe(r));
 </script>
 </body>
 </html>
